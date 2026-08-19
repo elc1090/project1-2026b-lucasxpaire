@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio do Dia</title>
+  <link rel="stylesheet" href="./estilo.css">
+</head>
+
+<body>
+  <header class="cabecalho-principal">
+    <div class="conteudo-cabecalho">
+      <div class="area-titulo">
+        <h1>Desafio do Dia</h1>
+        <p>Um desafio rápido. Um aprendizado que permanece.</p>
+      </div>
+      <div class="area-acoes">
+        <button id="botao-historico" class="botao-contorno">Ver Histórico</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="conteudo-principal">
+    <section class="cartao secao-estudante">
+      <h2>1. Identificação</h2>
+      <div class="grupo-formulario">
+        <label for="entrada-estudante">Seu nome:</label>
+        <input type="text" id="entrada-estudante" placeholder="Digite ou selecione seu nome..." autocomplete="off">
+        <ul id="lista-sugestoes" class="sugestoes"></ul>
+        <p id="status-estudante" class="dica"></p>
+      </div>
+    </section>
+
+    <section id="secao-desafio" class="cartao secao-desafio"></section>
+
+    <section id="secao-resposta" class="cartao secao-resposta">
+      <h2>2. Sua Resposta</h2>
+      <form id="formulario-resposta"></form>
+      <div id="mensagem-formulario" class="mensagem oculto"></div>
+      <button id="botao-enviar" type="button" class="botao-primario" disabled>Enviar Resposta</button>
+    </section>
+
+    <section id="secao-feedback" class="cartao secao-feedback oculto"></section>
+
+  </main>
+
+  <div id="modal-historico" class="modal oculto">
+    <div class="conteudo-modal">
+      <div class="cabecalho-modal">
+        <h2 id="titulo-historico">Histórico Geral</h2>
+        <button id="botao-fechar-historico" class="botao-fechar">&times;</button>
+      </div>
+      <div class="corpo-modal">
+        <ul id="lista-historico" class="lista-historico"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./aplicacao.js"></script>
+</body>
+
+</html>
