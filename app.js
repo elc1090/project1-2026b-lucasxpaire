@@ -22,6 +22,8 @@ const feedbackEl = document.querySelector("#feedback");
 const formMessageEl = document.querySelector("#form-message");
 const contentHistory = document.querySelector("#content-history");
 const loadHistoryButton = document.querySelector("#btn-load-history");
+const historyTitle = document.querySelector("#history-title");
+const historySubtitle = document.querySelector("#history-subtitle");
 
 async function getHistory(studentId = null) {
   let url = getApiUrl(studentId ? "getStudentHistory" : "getGeneralHistory");
@@ -35,36 +37,56 @@ async function getHistory(studentId = null) {
     if (!data.success) {
       throw new Error(data.error);
     }
-    loadHistory(data.history, studentId);
+
+    if (studentId) {
+      renderStudentHistory(data.history);
+      historyTitle.textContent = "Seu Histórico";
+      historySubtitle.textContent = "Veja o seu desempenho nos desafios passados.";
+    } else {
+      renderGeneralHistory(data.history);
+      historyTitle.textContent = "Histórico de Desafios";
+      historySubtitle.textContent = "Veja todos os desafios lançados até hoje.";
+    }
   } catch (error) {
     contentHistory.innerHTML = `<p class="error">Erro ao carregar histórico: ${error.message}</p>`;
   }
 }
 
-function loadHistory(history, studentId) {
+function renderStudentHistory(history) {
+  if (!history || history.length === 0) {
+    contentHistory.innerHTML = "<p class='hint'>Você ainda não respondeu nenhum desafio.</p>";
+    return;
+  }
+  contentHistory.innerHTML = history.map(item => {
+    const dataFormatada = item.date ? new Date(item.date).toLocaleDateString('pt-BR') : "Sem data";
+    return `
+    <div class="callout callout-reflection ${item.is_correct ? 'answer-correct' : 'answer-incorrect'}">
+      <strong>${escapeHtml(item.title)}</strong><br>
+      <small>Respondido em: ${dataFormatada}</small><br>
+      <span class="answer-status-label" style="display: inline-block; margin-top: 5px;">
+        ${item.is_correct ? '✓ Você acertou' : '✗ Você errou'}
+      </span>
+    </div>
+  `}).join("");
+}
+
+function renderGeneralHistory(history) {
   if (!history || history.length === 0) {
     contentHistory.innerHTML = "<p class='hint'>Nenhum histórico encontrado.</p>";
     return;
   }
-  if (studentId) {
-    contentHistory.innerHTML = history.map(item => `
-      <div class="callout callout-reflection ${item.is_correct ? 'answer-correct' : 'answer-incorrect'}">
-        <strong>Desafio Respondido em:</strong> ${new Date(item.date).toLocaleDateString()}<br>
-        <strong>Status:</strong> <span class="answer-status-label">${item.is_correct ? 'Correto' : 'Incorreto'}</span>
+  contentHistory.innerHTML = history.map(item => {
+    const dataFormatada = item.date ? new Date(item.date).toLocaleDateString('pt-BR') : "Sem data definida";
+    return `
+      <div class="callout callout-reflection">
+        <strong>${escapeHtml(item.title)}</strong><br>
+        <small>Data: ${dataFormatada}</small>
       </div>
-    `).join("");
-  } else {
-    contentHistory.innerHTML = history.map(item => `
-        <div class="callout callout-reflection">
-          <strong>${escapeHtml(item.title)}</strong><br>
-          <small>Data: ${item.date || "Sem data definida"}</small>
-        </div>
-    `).join("");
-  }
+  `}).join("");
 }
 
 loadHistoryButton.addEventListener("click", () => {
-  getHistory(state.selectedStudent ? state.selectedStudent.student_id : null);
+  getHistory(null);
 });
 
 function escapeHtml(value) {

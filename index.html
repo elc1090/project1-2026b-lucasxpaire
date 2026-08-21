@@ -23,25 +23,9 @@
             </p>
         </section>
 
-        <section class="challenge-card" id="section-history">
-            <div class="section-heading">
-                <span class="step-badge">1</span>
-                <div>
-                    <h2>Histórico de Desafios</h2>
-                    <p>Veja os desafios anteriores gerais ou o seu desempenho.</p>
-                </div>
-            </div>
-            <button id="btn-load-history" type="button">
-                Carregar Histórico
-            </button>
-            <div id="content-history">
-                <p class="hint">Clique no botão ou selecione um aluno para ver o histórico.</p>
-            </div>
-        </section>
-
         <section class="student-card">
             <div class="section-heading">
-                <span class="step-badge">2</span>
+                <span class="step-badge">1</span>
                 <div>
                     <h2>Escolha seu nome</h2>
                     <p>Selecione ou digite seu nome.</p>
@@ -58,7 +42,7 @@
 
         <section class="answer-card">
             <div class="section-heading">
-                <span class="step-badge">3</span>
+                <span class="step-badge">2</span>
                 <div>
                     <h2>Sua resposta</h2>
                     <p>Responda sem medo de errar!</p>
@@ -71,6 +55,22 @@
         </section>
 
         <section id="feedback" class="feedback-card hidden"></section>
+
+        <section class="challenge-card" id="section-history">
+            <div class="section-heading">
+                <span class="step-badge">⏱</span>
+                <div>
+                    <h2 id="history-title">Histórico de Desafios</h2>
+                    <p id="history-subtitle">Veja os desafios anteriores.</p>
+                </div>
+            </div>
+            <button id="btn-load-history" type="button">
+                Ver todos os desafios
+            </button>
+            <div id="content-history">
+                <p class="hint">Clique no botão ou selecione um aluno na etapa 1 para ver o histórico.</p>
+            </div>
+        </section>
     </main>
 
     <script type="module" src="./app.js"></script>
