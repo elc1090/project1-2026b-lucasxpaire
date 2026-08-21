@@ -20,6 +20,52 @@ const responseForm = document.querySelector("#response-form");
 const submitButton = document.querySelector("#submit-button");
 const feedbackEl = document.querySelector("#feedback");
 const formMessageEl = document.querySelector("#form-message");
+const contentHistory = document.querySelector("#content-history");
+const loadHistoryButton = document.querySelector("#btn-load-history");
+
+async function getHistory(studentId = null) {
+  let url = getApiUrl(studentId ? "getStudentHistory" : "getGeneralHistory");
+  if (studentId) {
+    url += `&student_id=${encodeURIComponent(studentId)}`;
+  }
+  contentHistory.innerHTML = "<p class='hint'>Carregando histórico...</p>";
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (!data.success) {
+      throw new Error(data.error);
+    }
+    loadHistory(data.history, studentId);
+  } catch (error) {
+    contentHistory.innerHTML = `<p class="error">Erro ao carregar histórico: ${error.message}</p>`;
+  }
+}
+
+function loadHistory(history, studentId) {
+  if (!history || history.length === 0) {
+    contentHistory.innerHTML = "<p class='hint'>Nenhum histórico encontrado.</p>";
+    return;
+  }
+  if (studentId) {
+    contentHistory.innerHTML = history.map(item => `
+      <div class="callout callout-reflection" style="margin-bottom: 10px;">
+        <strong>Desafio Respondido em:</strong> ${new Date(item.date).toLocaleDateString()}<br>
+        <strong>Status:</strong> ${item.is_correct ? '<span style="color: #166534; font-weight: bold;">Correto</span>' : '<span style="color: #9a3412; font-weight: bold;">Incorreto</span>'}
+      </div>
+    `).join("");
+  } else {
+    contentHistory.innerHTML = history.map(item => `
+        <div class="callout callout-reflection" style="margin-bottom: 10px;">
+          <strong>${escapeHtml(item.title)}</strong><br>
+          <small>Data: ${item.date || "Sem data definida"}</small>
+        </div>
+    `).join("");
+  }
+}
+
+btnCarregarHistorico.addEventListener("click", () => {
+  loadHistory(state.selectedStudent ? state.selectedStudent.student_id : null);
+});
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -495,6 +541,7 @@ suggestionsEl.addEventListener("click", event => {
   studentInput.value = student.display_name;
   suggestionsEl.innerHTML = "";
   studentStatus.textContent = `Selecionado: ${student.display_name}`;
+  loadHistory(student.student_id);
 });
 
 studentInput.addEventListener("input", () => {
