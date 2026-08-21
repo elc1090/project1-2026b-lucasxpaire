@@ -75,6 +75,10 @@ function handleRequest_(e, isPost) {
         return jsonResponse_({ success: true, app: getConfig_() });
       case 'getStudents':
         return jsonResponse_({ success: true, students: getStudents_() });
+      case 'getGeneralHistory':
+        return jsonResponse_({ success: true, history: getGeneralHistory_() });
+      case 'getStudentHistory':
+        return jsonResponse_({ success: true, history: getStudentHistory_(e.parameter.student_id) });
       case 'getActiveChallenge':
         return jsonResponse_({ success: true, current_challenge: getActiveChallenge_() });
       default:
@@ -140,6 +144,46 @@ function getStudents_() {
       student_id: String(row.student_id),
       display_name: String(row.display_name),
       active: true,
+    }));
+}
+
+function getGeneralHistory_() {
+  const sheet = getSheetByName_(SHEET_NAMES.CHALLENGES);
+  if (!sheet) {
+    return [];
+  }
+  return getSheetData_(sheet)
+    .map(row => ({
+      title: row.title,
+      date: row.date,
+      active: row.active
+    }));
+}
+
+function getStudentHistory_(studentId) {
+  if (!studentId) {
+    return []; 
+  }
+  
+  const responsesSheet = getSheetByName_(SHEET_NAMES.RESPONSES);
+  const challengesSheet = getSheetByName_(SHEET_NAMES.CHALLENGES);
+  
+  if (!responsesSheet || !challengesSheet) {
+    return [];
+  }
+  
+  const challengeMap = {};
+  getSheetData_(challengesSheet).forEach(row => {
+    challengeMap[row.challenge_key] = row.title;
+  });
+  
+  return getSheetData_(responsesSheet)
+    .filter(row => String(row.student_id) === String(studentId))
+    .map(row => ({
+      challenge_key: row.challenge_key,
+      title: challengeMap[row.challenge_key] || "Desafio sem título", 
+      date: row.timestamp,
+      is_correct: row.is_correct
     }));
 }
 
