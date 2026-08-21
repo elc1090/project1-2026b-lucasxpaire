@@ -21,7 +21,40 @@
         </header>
 
         <main class="conteudo-principal">
+            <section class="cartao" id="secao-aluno">
+                <div class="cabecalho-secao">
+                    <span class="badge-passo">1</span>
+                    <div>
+                        <h2>Quem é você?</h2>
+                        <p class="dica">Selecione ou digite seu nome.</p>
+                    </div>
+                </div>
 
+                <input type="text" id="input-nome" placeholder="Digite seu nome..." autocomplete="off">
+                <ul id="lista-sugestoes" class="sugestoes"></ul>
+            </section>
+
+            <section class="cartao" id="secao-desafio">
+                <div class="cabecalho-secao">
+                    <span class="badge-passo">2</span>
+                    <div>
+                        <h2>Desafio do Dia</h2>
+                        <p class="dica">Aguardando identificação...</p>
+                    </div>
+                </div>
+                <div id="conteudo-desafio"></div>
+            </section>
+
+            <section class="cartao" id="secao-historico">
+                <div class="cabecalho-secao">
+                    <span class="badge-passo">3</span>
+                    <div>
+                        <h2>Histórico de Questões</h2>
+                        <p class="dica">Veja os desafios anteriores.</p>
+                    </div>
+                </div>
+                <div id="conteudo-historico"></div>
+            </section>
         </main>
     </div>
 
