@@ -584,6 +584,27 @@ code {
     display: none;
 }
 
+#btn-load-history {
+    border: 3px solid var(--black);
+    background: #ffffff;
+    color: var(--text);
+    font: inherit;
+    font-weight: 800;
+    border-radius: 14px;
+    padding: 12px 14px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--black);
+    margin-bottom: 16px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#btn-load-history:hover {
+    background: var(--purple);
+    color: var(--cream);
+    transform: translate(-1px, -1px);
+}
+
 .error {
     color: var(--purple);
     font-weight: 950;

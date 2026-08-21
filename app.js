@@ -48,14 +48,14 @@ function loadHistory(history, studentId) {
   }
   if (studentId) {
     contentHistory.innerHTML = history.map(item => `
-      <div class="callout callout-reflection" style="margin-bottom: 10px;">
+      <div class="callout callout-reflection ${item.is_correct ? 'answer-correct' : 'answer-incorrect'}">
         <strong>Desafio Respondido em:</strong> ${new Date(item.date).toLocaleDateString()}<br>
-        <strong>Status:</strong> ${item.is_correct ? '<span style="color: #166534; font-weight: bold;">Correto</span>' : '<span style="color: #9a3412; font-weight: bold;">Incorreto</span>'}
+        <strong>Status:</strong> <span class="answer-status-label">${item.is_correct ? 'Correto' : 'Incorreto'}</span>
       </div>
     `).join("");
   } else {
     contentHistory.innerHTML = history.map(item => `
-        <div class="callout callout-reflection" style="margin-bottom: 10px;">
+        <div class="callout callout-reflection">
           <strong>${escapeHtml(item.title)}</strong><br>
           <small>Data: ${item.date || "Sem data definida"}</small>
         </div>
@@ -63,8 +63,8 @@ function loadHistory(history, studentId) {
   }
 }
 
-btnCarregarHistorico.addEventListener("click", () => {
-  loadHistory(state.selectedStudent ? state.selectedStudent.student_id : null);
+loadHistoryButton.addEventListener("click", () => {
+  getHistory(state.selectedStudent ? state.selectedStudent.student_id : null);
 });
 
 function escapeHtml(value) {
@@ -541,7 +541,7 @@ suggestionsEl.addEventListener("click", event => {
   studentInput.value = student.display_name;
   suggestionsEl.innerHTML = "";
   studentStatus.textContent = `Selecionado: ${student.display_name}`;
-  loadHistory(student.student_id);
+  getHistory(student.student_id);
 });
 
 studentInput.addEventListener("input", () => {
