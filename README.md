@@ -12,7 +12,7 @@
 ## App original
 
 ### Links
-- Acesso: 
+- Acesso: Nenhuma URL pública
 - Repositório: https://github.com/elc1090/demo-challenge-of-the-day
 
 ### Descrição
@@ -38,14 +38,14 @@ Giovana Borelli
 
 Primeiramente meu objetivo era reescrever todo o projeto do zero para ter controle sobre a base de código e os estilos. Cheguei a criar arquivos do zero para `index.html`, `style.css`, `app.js`. Porém, a complexidade do CSS original, a quantidade de códigos do `app.js` e reler a proposta do trabalho, percebi que a decisão mais inteligente seria compreender os códigos já existentes do projeto original e adicionar as novas alterações no projeto.
 
-Para a demanda 1 sobre o histórico, eu li os códigos do `app.js` para saber como o frontend obtinha os dados dos alunos e dos desafios. Então vi que dentro do código `Code.gs` que é a API que o frontend consome, descobri que não existia lógica para devolver o histório dos desafios e das respostas dos alunos.
+Para a demanda 1 sobre o histórico, eu li os códigos do `app.js` para saber como o frontend obtinha os dados dos alunos e dos desafios. Então vi que dentro do código `Code.gs` que é a API que o frontend consome, descobri que não existia lógica para devolver o histórico dos desafios e das respostas dos alunos.
 Então eu criei:
 - Duas novas rotas na API chamadas `getGeneralHistory` e `getStudentHistory`.
 - Dentro de `app.js` criei o método `getHistory` para consumir a API e obter o histórico dos desafios ou o histórico das respostas dos desafios feitos pelo aluno. Esse método tem essas duas opções de retorno, pois apenas fiz uma verificação que se a identificação do estudante passada pelo parâmetro for nulo, então o método está sendo chamado para obter o histórico geral de todas os desafios feitos, senão está sendo chamado para obter o histórico de respostas dos desafios do estudante.
 - Criei uma nova `<section>` para o histórico de desafios no fim da página do `index.html`, fazendo com que a funcionalidade seja acessível após o fluxo obrigatório do aluno ter sido feito primeiramente, que no caso é responder a pergunta do desafio.
 - Implementei uma regra de negócio para utilizar esse histórico de desafios:
   - Histórico geral: Ao clicar no botão `Ver todos os desafios`, mostra todas os desafios feitos anteriormente e a data da criação deles.
-  - Histórico do estudante: É necessário selecionar o estudante na etapa 1 do fluxo de indentificação do estudante para responder o desafio. Dessa maneira, o estudante responde o desafio e no fim da tela vai visualizar automaticamente todos os seus desafios anteriores, fazendo com que ele não precise digitar seu nome novamente para buscar o seu histórico.
+  - Histórico do estudante: É necessário selecionar o estudante na etapa 1 do fluxo de identificação do estudante para responder o desafio. Dessa maneira, o estudante responde o desafio e no fim da tela vai visualizar automaticamente todos os seus desafios anteriores, fazendo com que ele não precise digitar seu nome novamente para buscar o seu histórico.
 
 Para a demanda 2 sobre a estética do cabeçalho, eu li as regras CSS aplicadas a tag `<h1>`. Descobri que o espaço em branco ocorria devido a propriedade `max-width: 8ch`, isso forçava o título a ter a largura de 8 letras no máximo, porém o texto tinha um total de 14 letras: `Desafio do dia`. Por isso, o texto não cabia e o comportamento do navegador quebrava o resto do texto para a próxima linha.
 A correção foi adicionar a regra `white-space: nowrap`, que diz para não quebrar o texto de jeito nenhum.
@@ -67,7 +67,7 @@ h1 {
 
 **2. Rotas limpas**:
 
-Essa adição mostra as rotas criadas na API, aplicando um critério clean code chamado Princípio de Responsabilidade Única. Fazendo com que a api retorne exatamente o necessário, divindo a chama de histórico em duas funções (geral e por aluno). 
+Essa adição mostra as rotas criadas na API, aplicando um critério clean code chamado Princípio de Responsabilidade Única. Fazendo com que a api retorne exatamente o necessário, dividindo a chamada de histórico em duas funções (geral e por aluno). 
 
 ```javascript
 case 'getGeneralHistory':
