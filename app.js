@@ -515,6 +515,9 @@ async function handleSubmit() {
     await apiSubmitResponse(payload);
     renderFeedback(singleChoiceResult);
     showFormMessage("Resposta enviada com sucesso.", "success");
+    if (state.selectedStudent) {
+      getHistory(state.selectedStudent.student_id);
+    }
   } catch (error) {
     console.error(error);
     showFormMessage(error.message || "Não foi possível enviar a resposta.");
